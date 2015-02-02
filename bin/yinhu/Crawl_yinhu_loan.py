@@ -32,6 +32,8 @@ def fetch_web_data(db):
 	soup = BeautifulSoup(f.read())
 	for product in soup.find('div',{'id':'loan_list'}).find('tbody').findAll('tr'):
 		record = {}
+ 		if product.find('span',{'class':'pst_num_r'}) == None:
+			return
 		record['progress'] = product.find('span',{'class':'pst_num_r'}).text
 		if (float)(record['progress'][:-1]) == 100:
 			continue

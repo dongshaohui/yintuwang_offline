@@ -48,6 +48,8 @@ def parse_loan(loan):
 		loaned_r = re.compile(r'\d+')
 		record['loaned'] = re.findall(loaned_r,record['loaned'])[-1]
 		record['amount'] = loan_detail.find('div',{'class':'l bid_total'}).find('span').text.replace(',','').encode('utf-8')
+		record['surplus'] = (int)(record['amount']) - (int)(record['loaned'])
+		record['progress'] = (str)(float('%0.3f'%((float)(record['loaned']) / (float)(record['amount'])))*100) + "%"
 		record['interest'] = loan_detail.find('div',{'class':'l bid_rate'}).find('span').text + "%"
 		record['duetime'] = loan_detail.find('div',{'class':'l bidInfor'}).find('h4').text
 		record['unit'] = loan_detail.find('div',{'class':'bidForm'}).find('input')['value']

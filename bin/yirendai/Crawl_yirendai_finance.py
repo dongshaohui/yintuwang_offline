@@ -53,5 +53,8 @@ def parse_loan(loan):
 if __name__ == '__main__':
 	db = Connent_Online_Mysql_By_DB('rdsjjuvbqjjuvbqout.mysql.rds.aliyuncs.com',3306,'dongsh','5561225','financal_product','/tmp/mysql.sock')
 	# 清空原有数据库
-	os.system('/home/dong/p2p3000/tool/empty_db_table.sh  p2p_product_yirendai_finance')
+	script_path = os.getcwd()
+	script_path = script_path[:script_path.find('p2p3000')]+"p2p3000/tool/empty_db_table.sh"
+	os.system(script_path + '  p2p_product_yirendai_finance')
+	#os.system('/home/dong/p2p3000/tool/empty_db_table.sh  p2p_product_yirendai_finance')
 	fetch_json_data(db)
