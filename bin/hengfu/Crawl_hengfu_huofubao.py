@@ -33,6 +33,8 @@ def fetch_web_data(db):
 	soup = BeautifulSoup(f.read())
 	prolist = soup.find('div',{'class':'biaot_content_2'}).find('table').findAll('tr')
 	for product in prolist:
+		if product.find('img') != None:
+			continue
 		proAttrs = product.findAll('td')
 		record = {}
 		record['proName'] = proAttrs[2].find('a').text
