@@ -29,7 +29,7 @@ def write_record_db(db,list_obj,table_name):
 def fetch_web_data(db):
 	page_link = g_root_link
 	r = urllib2.Request(page_link)
-	f = urllib2.urlopen(r, data=None, timeout=3)
+	f = urllib2.urlopen(r, data=None, timeout=10)
 	soup = BeautifulSoup(f.read())
 	prolist = soup.findAll('div',{'class':'version-item version-mb10'})
 	for product in prolist:
