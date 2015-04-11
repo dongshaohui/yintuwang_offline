@@ -30,7 +30,7 @@ def write_record_db(db,list_obj,table_name):
 def fetch_json_data(db):
 	page_link = g_root_link
 	r = urllib2.Request(page_link)
-	f = urllib2.urlopen(r, data=None, timeout=3)
+	f = urllib2.urlopen(r, data=None, timeout=10)
 	json_obj_list = json.loads(f.read())['bean']['list']
 	for product in json_obj_list:
 		if product['status'] != 2:
