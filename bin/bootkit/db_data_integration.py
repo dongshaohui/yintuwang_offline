@@ -6,7 +6,6 @@ import DB
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"../..")) + '/tool/')
-#sys.path.append('/home/dong/p2p3000/tool/')
 import manipulate_conf
 import ConfigParser
 from ConfigParser import ConfigParser
@@ -41,7 +40,7 @@ def fetch_table_field_from_db(db,table_name):
 	return record_list
 
 # 数据库数据进行整合
-def db_data_integrate(db):
+def db_data_integrate(db,db1):
 	cf = MyConfigParser()
 	cf.read(os.path.abspath(os.path.join(os.path.dirname(__file__),"../..")) + '/conf/db_field_mapping.ini')
 	sections = cf.sections()
@@ -65,10 +64,11 @@ def db_data_integrate(db):
 					continue
 				sub_element = section_map[key][subkey]
 				record[sub_element] = product_record[subkey]
-			write_record_db(db,record,'p2p_product_nvg_p2p_product_detail')
+			write_record_db(db1,record,'p2p_products')
 if __name__ == '__main__':
 	db = Connent_Online_Mysql_By_DB('rdsjjuvbqjjuvbqout.mysql.rds.aliyuncs.com',3306,'dongsh','5561225','financal_product','/tmp/mysql.sock')
+	db1 = Connent_Online_Mysql_By_DB('rdsjjuvbqjjuvbqout.mysql.rds.aliyuncs.com',3306,'dongsh','5561225','wangdai_p2p','/tmp/mysql.sock')
 	script_path = os.getcwd()
 	script_path = script_path[:script_path.find('p2p3000')]+"p2p3000/tool/empty_db_table.sh"
-	db_data_integrate(db)
+	db_data_integrate(db,db1)
 	#fetch_table_field_from_db(db,'p2p_product_nvg_p2p_product_detail')

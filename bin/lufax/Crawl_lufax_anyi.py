@@ -32,7 +32,10 @@ def getSoupFromWeblink(urllink):
 
 # 获取页数
 def getPageNumber():
-	soup = getSoupFromWeblink(g_root_link)
+	r = urllib2.Request(g_root_link)
+	f = urllib2.urlopen(r, data=None, timeout=5)
+	soup = BeautifulSoup(f.read())
+	#soup = getSoupFromWeblink(g_root_link)
 	page_number_tag = soup.findAll('a',{'class':'btns btn_page btn_small last'})[0]['data-val']
 	return (int)(page_number_tag)
 
@@ -53,7 +56,6 @@ def getProLink(db):
 def getProDetail(db,proinfo,statusinfo,amountinfo):
 	# 产品状态
 	proProgress = statusinfo.find('span').text
-
 	# 产品详情
 	proName = proinfo.find('a').text # 产品名称
 	interest_rate_tag = proinfo.find('li',{'class':'interest-rate'})

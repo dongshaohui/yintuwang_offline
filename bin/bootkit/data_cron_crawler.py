@@ -82,7 +82,7 @@ os.system('python ' + script_path + '/yirendai/Crawl_yirendai_finance.py')
 os.system('python ' + script_path + '/yirendai/Crawl_yirendai_loan.py')
 os.system('python ' + script_path + '/yirendai/Crawl_yirendai_transfer.py')
 print "宜人贷 finish"
-# 有利网 youliwang (使用phontomjs)
+# 有利网 youliwang (使用phantomjs)
 
 # 所有数据整合
 script_path = os.getcwd()
