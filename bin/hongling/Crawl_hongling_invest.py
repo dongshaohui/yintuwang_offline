@@ -47,7 +47,7 @@ def fetch_web_data(db):
 			record['amount'] = loan.find('dd',{'class':'dd_3 mar_top_18'}).text
 			record['duetime'] = loan.find('dd',{'class':'dd_4 mar_top_18'}).text.split('/')[0].replace(' ','')
 			record['paytype'] = loan.find('dd',{'class':'dd_4 mar_top_18'}).text.split('/')[1].replace(' ','')
-			record['progress'] = loan.find('dd',{'class':'dd_6 mar_top_18'}).find('p',{'class':'Bar lf'}).find('span').text
+			record['progress'] = loan.find('dd',{'class':'dd_6 mar_top_18'}).find('span').text
 			record['datestr'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 			record['urllink'] = g_root_link + loan.find('div',{'class':'txt_tou'}).find('a')['href']
 			progress_r = re.compile(r'\d+')
