@@ -36,8 +36,11 @@ def getPageNumber():
 	f = urllib2.urlopen(r, data=None, timeout=5)
 	soup = BeautifulSoup(f.read())
 	#soup = getSoupFromWeblink(g_root_link)
-	page_number_tag = soup.findAll('a',{'class':'btns btn_page btn_small last'})[0]['data-val']
-	return (int)(page_number_tag)
+	try:
+		page_number_tag = soup.findAll('a',{'class':'btns btn_page btn_small last'})[0]['data-val']
+		return (int)(page_number_tag)
+	except:
+		return 1
 
 # 获取产品地址列表
 def getProLink(db):
