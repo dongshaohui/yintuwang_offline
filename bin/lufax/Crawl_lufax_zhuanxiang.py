@@ -7,6 +7,7 @@ import sys,os,urllib2,threading
 import datetime
 import DB
 
+g_link = "https://list.lufax.com"
 g_page_link = "https://list.lufax.com/list/zhuanxiang?currentPage="
 g_root_link = "https://list.lufax.com/list/zhuanxiang"
 g_pro_root_link = "https://list.lufax.com/list/productDetail?productId="
@@ -62,7 +63,7 @@ def getProDetail(db,proinfo,statusinfo,amountinfo):
 	period_tag = proinfo.find('li',{'class':'invest-period'})
 	proPeriod = period_tag.find('p').text # 产品投资期限
 	#remain_capital = proinfo.find('li',{'class':'collection-mode'}).find('em').text # 剩余资金
-	proUrlLink = g_pro_root_link + dict(proinfo.find('a').attrs)['data-productid']
+	proUrlLink = g_link + proinfo.find('a')['href']
 
 	# 起投资金详情
 	proAmount = amountinfo.find('em').text

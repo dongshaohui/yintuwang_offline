@@ -7,6 +7,7 @@ import sys,os,urllib2,threading
 import datetime
 import DB
 
+g_link = "https://list.lufax.com"
 g_root_link = "https://list.lufax.com/list/fuying"
 g_pro_link = "https://list.lufax.com/list/productDetail?productId="
 
@@ -49,8 +50,9 @@ def getProDetailInfo(db,proinfo):
 	period_tag = proinfo.find('li',{'class':'invest-period'})
 	proPeriod = period_tag.find('p').text # 产品投资期限
 	
-	proID = dict(proinfo.find('a').attrs)['data-productid']
-	proUrlLink = g_pro_link + proID
+	#proID = dict(proinfo.find('a').attrs)['data-productid']
+	proUrlLink = g_link + proinfo.find('a')['href']
+	#proUrlLink = g_pro_link + proID
 
 	proAmount = proinfo.find('div',{'class':'product-amount is-3rd-col'}).find('em').text
 	record_obj = {}
