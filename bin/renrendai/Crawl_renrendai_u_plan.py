@@ -53,7 +53,10 @@ def parse_uplan_json_link(db,cur_data_link):
 		record['datestr'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		record['urllink'] = g_pro_root_link + (str)(json_obj['id'])
 		record['waitTime'] = getDuetime(record['urllink'])
-		write_record_db(db,record,'p2p_product_renrendai_u_plan')
+		if json_obj['status'] == '1' or json_obj['status'] == '4':
+			write_record_db(db,record,'p2p_product_renrendai_u_plan')
+		else:
+			break
 	if len(json_objs["data"]["plans"]) == 0:
 		return False
 	else:
