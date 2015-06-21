@@ -28,7 +28,7 @@ def write_record_db(db,list_obj,table_name):
 def fetch_web_data(db):
 	page_link = g_root_link
 	r = urllib2.Request(page_link)
-	f = urllib2.urlopen(r, data=None, timeout=5)
+	f = urllib2.urlopen(r, data=None, timeout=10)
 	soup = BeautifulSoup(f.read())
 	product_list = soup.findAll('ul',{'class':'invest-product-case-list mtn btn clearfix '})
 	for product in product_list:
