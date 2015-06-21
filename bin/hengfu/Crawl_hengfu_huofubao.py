@@ -28,22 +28,22 @@ def write_record_db(db,list_obj,table_name):
 
 def fetch_web_data(db):
 	page_link = g_root_link
+	print page_link
 	r = urllib2.Request(page_link)
 	f = urllib2.urlopen(r, data=None, timeout=10)
 	soup = BeautifulSoup(f.read())
-	prolist = soup.find('div',{'class':'biaot_content_2'}).find('table').findAll('tr')
+	prolist = soup.find('div',{'class':'layout fix H-container'}).findAll('div',{'class':'fix product-Li huafb-Li'})
 	for product in prolist:
-		if product.find('img') != None:
-			continue
-		proAttrs = product.findAll('td')
+		if product.find('div',{'class':'fl pro-active'}).find('a')['class'] != 'btn1':
+			break
 		record = {}
-		record['proName'] = proAttrs[2].find('a').text
-		record['amount'] = proAttrs[3].text
-		record['interest'] = proAttrs[4].text
-		record['duetime'] = proAttrs[5].text
-		record['surplus'] = proAttrs[6].text
+		record['proName'] = product.find('a').text
+		record['amount'] = product.find('ul').findAll('li')[2].find('span').text.replace(',','')
+		record['interest'] = product.find('ul').findAll('li')[0].find('span').text
+		record['duetime'] = product.find('ul').findAll('li')[1].find('span').text
+		record['surplus'] = product.find('ul').findAll('li')[3].find('span').text.replace(',','')
 		record['minAmount'] = '1'
-		record['urllink'] = g_pro_link + proAttrs[2].find('a')['href']
+		record['urllink'] = g_pro_link + product.find('div',{'class':'fl pro-active'}).find('a')['href']
 		record['datestr'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		write_record_db(db,record,'p2p_product_hengfu_huofubao')
 
@@ -51,6 +51,9 @@ def fetch_web_data(db):
 if __name__ == '__main__':
 	db = Connent_Online_Mysql_By_DB('rdsjjuvbqjjuvbqout.mysql.rds.aliyuncs.com',3306,'dongsh','5561225','financal_product','/tmp/mysql.sock')
 	# 清空原有数据库
-	os.system('/home/dong/p2p3000/tool/empty_db_table.sh  p2p_product_hengfu_huofubao')
+	script_path = os.getcwd()
+	script_path = script_path[:script_path.find('p2p3000')]+"p2p3000/tool/empty_db_table.sh"
+	os.system(script_path + '  p2p_product_hengfu_huofubao')
+	# os.system('/home/dong/p2p3000/tool/empty_db_table.sh  p2p_product_hengfu_huofubao')
 	fetch_web_data(db)
 

@@ -28,13 +28,18 @@ def write_record_db(db,list_obj,table_name):
 
 # 获取页数
 def fetch_page_number():
-	soup = BeautifulSoup(urllib2.urlopen(g_root_link,'r').read())
+	r = urllib2.Request(g_root_link)
+	f = urllib2.urlopen(r, data=None, timeout=10)
+	soup = BeautifulSoup(f.read())
 	page_tag = soup.find('div',{'class':'yema rt'}).find('span',{'class':'z_page'}).text
 	page_r = re.compile(r'\d+')
 	return (int)(re.findall(page_r,page_tag)[0])
 
 def fetch_web_data(db):
 	page_n = fetch_page_number()
+	print page_n
+	if page_n > 10:
+		page_n = 10
 	for i in range(1,page_n+1):
 		page_link = g_page_index_link + str(i)
 		soup = BeautifulSoup(urllib2.urlopen(page_link,'r').read())

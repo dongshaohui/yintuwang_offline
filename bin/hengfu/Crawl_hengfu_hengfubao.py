@@ -31,19 +31,21 @@ def fetch_web_data(db):
 	r = urllib2.Request(page_link)
 	f = urllib2.urlopen(r, data=None, timeout=10)
 	soup = BeautifulSoup(f.read())
-	prolist = soup.find('div',{'class':'hf_list_ct'}).findAll('div',{'class':'list_product'})
+	prolist = soup.find('div',{'class':'layout fix H-container'}).findAll('div',{'class':'fix product-Li hengfb-Li'})
 	for product in prolist:
-		if 'endtime' not in dict(product.findAll('li',{'class':'li_menu'})[-1].find('a').attrs):
+		if product.find('div',{'class':'p-time'}).find('a')['class'] != 'btn1':
 			break
 		# 爬取正在进行中的恒富宝理财产品
 		record = {}
-		record['proName'] = product.find('a').text
-		record['amount'] = product.find('div',{'class':'tz_hf'}).findAll('em')[0].text
-		record['surplus'] = product.find('div',{'class':'tz_hf'}).findAll('em')[-1].text
-		record['interest'] = product.find('div',{'class':'list_product_right'}).find('table').findAll('td')[0].text
-		record['add_interest'] = product.find('div',{'class':'list_product_right'}).find('table').findAll('td')[1].text.replace('+','')
-		record['duetime'] = product.find('ul',{'class':'ul_2'}).find('li',{'class':'nianliv nianliv2'}).text
-		record['endtime'] = product.find('ul',{'class':'ul_2'}).find('li',{'class':'li_menu'}).find('a')['endtime']
+		record['proName'] = product.find('a')['title']
+		record['amount'] = product.find('ul').findAll('li')[2].find('b').text.replace(',','')
+		record['surplus'] = product.find('b',{'class':'fw-B'}).text.replace(',','')
+		record['interest'] = product.find('ul').findAll('li')[0].find('span').text
+		# record['add_interest'] = product.find('div',{'class':'list_product_right'}).find('table').findAll('td')[1].text.replace('+','')
+		record['progress'] = product.find('ul',{'class':'fl pro-mid'}).find('li').text
+		record['progress'] = re.findall(r"\d+\.?\d*",record['progress'])[0]
+		record['duetime'] = product.find('ul').findAll('li')[1].find('span').text
+		# record['endtime'] = product.find('ul',{'class':'ul_2'}).find('li',{'class':'li_menu'}).find('a')['endtime']
 		record['datestr'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		record['urllink'] = g_pro_link + product.find('a')['href']
 		write_record_db(db,record,'p2p_product_hengfu_hengfubao')
@@ -51,6 +53,9 @@ def fetch_web_data(db):
 if __name__ == '__main__':
 	db = Connent_Online_Mysql_By_DB('rdsjjuvbqjjuvbqout.mysql.rds.aliyuncs.com',3306,'dongsh','5561225','financal_product','/tmp/mysql.sock')
 	# 清空原有数据库
-	os.system('/home/dong/p2p3000/tool/empty_db_table.sh  p2p_product_hengfu_hengfubao')
+	script_path = os.getcwd()
+	script_path = script_path[:script_path.find('p2p3000')]+"p2p3000/tool/empty_db_table.sh"
+	os.system(script_path + '  p2p_product_hengfu_hengfubao')
+	# os.system('/home/dong/p2p3000/tool/empty_db_table.sh  p2p_product_hengfu_hengfubao')
 	fetch_web_data(db)
 
