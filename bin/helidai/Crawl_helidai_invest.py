@@ -53,7 +53,9 @@ if __name__ == '__main__':
 	db = Connent_Online_Mysql_By_DB('rdsjjuvbqjjuvbqout.mysql.rds.aliyuncs.com',3306,'dongsh','5561225','financal_product','/tmp/mysql.sock')
 	# 清空原有数据库
 	script_path = os.getcwd()
+	print script_path
 	script_path = script_path[:script_path.find('p2p3000')]+"p2p3000/tool/empty_db_table.sh"
+	print script_path
 	os.system(script_path + '  p2p_product_helidai_invest')
 	#os.system('/home/dong/p2p3000/tool/empty_db_table.sh  p2p_product_helidai_invest')
 	fetch_web_data(db)
