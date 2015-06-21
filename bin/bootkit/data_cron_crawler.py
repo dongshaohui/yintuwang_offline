@@ -34,9 +34,10 @@ os.system('python ' + script_path + '/iqianjin/Crawl_iqianjin_lingqiantong.py')
 os.system('python ' + script_path + '/iqianjin/Crawl_iqianjin_zhengcunbao.py')
 print "爱钱进 finish"
 # 爱投资 itouzi
-os.system('python ' + script_path + '/itouzi/Crawl_itouzi_aibaoli.py')
-os.system('python ' + script_path + '/itouzi/Crawl_itouzi_aidanbao.py')
-os.system('python ' + script_path + '/itouzi/Crawl_itouzi_dept.py')
+os.system('python ' + script_path + '/itouzi/Crawl_itouzi.py')
+# os.system('python ' + script_path + '/itouzi/Crawl_itouzi_aibaoli.py')
+# os.system('python ' + script_path + '/itouzi/Crawl_itouzi_aidanbao.py')
+# os.system('python ' + script_path + '/itouzi/Crawl_itouzi_dept.py')
 print "爱投资 finish"
 # 积木盒子 jimubox
 os.system('python ' + script_path + '/jimubox/Crawl_jimubox_invest.py')

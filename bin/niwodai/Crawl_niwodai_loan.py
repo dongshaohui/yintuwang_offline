@@ -31,16 +31,16 @@ def fetch_web_data(db,page_tag):
 	r = urllib2.Request(page_link)
 	f = urllib2.urlopen(r, data=None, timeout=3)
 	soup = BeautifulSoup(f.read())
-	prolist = soup.find('div',{'class':'biaoList'}).findAll('tr')
-	for i in range(1,len(prolist)):
+	prolist = soup.findAll('div',{'class':'mb_10 item_out'})
+	for i in range(0,len(prolist)):
 		product = prolist[i]
 		record = {}
-		record['proName'] = product.find('i')['title'] + "-" +  product.find('td')['title']
-		record['interest'] = product.find('em',{'class':'fc_orange fs_16'}).text
-		record['amount'] = product.find('td',{'class':'j'}).find('em').text.replace(',','')
-		record['progress'] = product.find('td',{'class':'fc_3a'}).text
+		record['proName'] = product.find('h3',{'class':'tit'}).find('span').text
+		record['interest'] = product.find('ul').findAll('li')[0].findAll('span')[1].text + '%'
+		record['amount'] = product.find('ul').findAll('li')[2].findAll('span')[1].text.replace(',','')
+		record['progress'] = product.find('span').text
 		record['surplus'] = (float)(record['amount']) * (1 - (float)(record['progress'][:-1]) / 100.0)
-		record['duetime'] = product.findAll('td')[2].text
+		record['duetime'] = ((str)(product.find('ul').findAll('li')[1].findAll('span')[1].text.encode('utf-8') + '个月')).decode('utf-8')
 		record['urllink'] = g_transfer_link + product.find('a')['href']
 		record['datestr'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		write_record_db(db,record,'p2p_product_niwodai_loan')
